@@ -1,16 +1,16 @@
 import os
 import cv2
 
-SNAPSHOT_DIR = "Snapshots"
+IMAGE_DIR = "Images"
 
 def save_image(image):
     try: 
-        if not os.path.exists(SNAPSHOT_DIR): 
-            os.makedirs(SNAPSHOT_DIR)
+        if not os.path.exists(IMAGE_DIR): 
+            os.makedirs(IMAGE_DIR)
 
-        print("Saving snapshot...")
-        file_name = input("What would you like to name the snapshot: ")
-        file_path = os.path.join(SNAPSHOT_DIR, f"{file_name}.jpg")
+        print("Saving image...")
+        file_name, _ = input("What would you like to name the image: ").split('.', maxsplit=1)
+        file_path = os.path.join(IMAGE_DIR, f"{file_name}.jpg")
 
         if os.path.exists(file_path): 
             res = input(f"This would overwrite the existsing {file_name}.jpg. Continue (Y/N)? ")
@@ -23,4 +23,19 @@ def save_image(image):
         print("File saved!")
 
     except Exception as e: 
-        print(f"Error saving photo: {e}")
+        print(f"Error saving an image: {e}")
+
+def delete_image():
+    try:         
+        file_name, _ = input("Which image would you like to delete?: ").split('.', maxsplit=1)
+        file_path = os.path.join(IMAGE_DIR, f"{file_name}.jpg")
+
+        if not os.path.exists(file_path):
+            print(f"{file_name}.jpg does not exist!")
+            return
+        
+        os.remove(file_path)
+        print(f"{file_name}.jpg deleted.")
+            
+    except Exception as e: 
+        print(f"Error deleting an image: {e}") 

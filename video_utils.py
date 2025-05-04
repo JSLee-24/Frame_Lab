@@ -11,7 +11,7 @@ def start_video_record(fourcc, frame_width, frame_height):
         if not os.path.exists(VIDEO_DIR): 
             os.makedirs(VIDEO_DIR)
 
-        file_name = input("What would you like to name the snapshot: ")
+        file_name, _ = input("What would you like to name the snapshot: ").split('.', maxsplit=1)
         file_path = os.path.join(VIDEO_DIR, f'{file_name}.mp4')
 
         if os.path.exists(file_path): 
@@ -36,3 +36,18 @@ def end_video_record(vid):
     
     except Exception as e: 
         print(f"Error ending video recording: {e}")
+
+def delete_video():
+    try:         
+        file_name, _ = input("Which video would you like to delete?: ").split('.', maxsplit=1)
+        file_path = os.path.join(VIDEO_DIR, f"{file_name}.mp4")
+
+        if not os.path.exists(file_path):
+            print(f"{file_name}.mp4 does not exist!")
+            return
+        
+        os.remove(file_path)
+        print(f"{file_name}.mp4 deleted.")
+            
+    except Exception as e: 
+        print(f"Error deleting a video: {e}") 
