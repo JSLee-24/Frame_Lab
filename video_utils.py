@@ -4,9 +4,10 @@ import cv2
 VIDEO_DIR = "Videos"
 FRAME_RATE = 30.0
 
-def start_video_record(fourcc, frame_width, frame_height): 
+def start_video_record(frame, fourcc): 
     try: 
         vid = None
+        height, width = frame.shape[:2]
 
         if not os.path.exists(VIDEO_DIR): 
             os.makedirs(VIDEO_DIR)
@@ -21,7 +22,7 @@ def start_video_record(fourcc, frame_width, frame_height):
                 print("Recording cancelled.")
                 return vid
         
-        vid = cv2.VideoWriter(file_path, fourcc, FRAME_RATE, (frame_width, frame_height))
+        vid = cv2.VideoWriter(file_path, fourcc, FRAME_RATE, (width, height))
 
     except Exception as e: 
         print(f"Error recording video: {e}")

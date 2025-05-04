@@ -11,8 +11,6 @@ vid = None
 
 web_cam = cv2.VideoCapture(0)
 fourcc = cv2.VideoWriter_fourcc(*'mp4v')
-frame_width = int(web_cam.get(cv2.CAP_PROP_FRAME_WIDTH))
-frame_height = int(web_cam.get(cv2.CAP_PROP_FRAME_HEIGHT))
 
 while True: 
     ret, frame = web_cam.read()
@@ -31,7 +29,7 @@ while True:
     elif input == ord('r'): 
         # record video
         if not recording: 
-            vid = start_video_record(fourcc, frame_width, frame_height)
+            vid = start_video_record(frame, fourcc)
 
             if vid: 
                 print("Recording video...")
