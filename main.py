@@ -93,15 +93,17 @@ def handle_filter():
 
     except Exception as e: 
         print(f"Error: {e}")
-        
+
+def handle_help(): 
+    print("""What would you like to do?\n
+    (S) Take a snapshot\n
+    (R) Record a video\n
+    (D) Delete a file\n
+    (F) Apply a filter\n
+    (Q) Quit""")
+           
 print("Welcome to Frame Lab")
-print("""Welcome to Frame Lab!
-What would you like to do?\n
-(S) Take a snapshot\n
-(R) Record a video\n
-(D) Delete a file\n
-(F) Apply a filter\n
-(Q) Quit""")
+handle_help()
 
 while True: 
     ret, frame = web_cam.read()
@@ -118,17 +120,33 @@ while True:
 
     key = cv2.waitKey(1)
 
-    if key == ord('s'): 
-        threading.Thread(target=handle_snapshot, args=(frame,), daemon=True).start()
+    if key == ord('s'):  
+        if filtered: 
+            arg = image
+        else: 
+            arg = frame
+
+        threading.Thread(target=handle_snapshot, args=(arg,), daemon=True).start()
     
     elif key == ord('r'): 
-        threading.Thread(target=handle_record, args=(frame,), daemon=True).start()
+        if filtered: 
+            arg = image
+        else: 
+            arg = frame
+
+        threading.Thread(target=handle_record, args=(arg,), daemon=True).start()
 
     elif key == ord('d'):
         threading.Thread(target=handle_delete, daemon=True).start()
 
     elif key == ord('f'): 
-        threading.Thread(target=handle_filter, daemon=True).start()
+        if recording: 
+            print("Please stop the recording to change apply filters!")
+        else: 
+            threading.Thread(target=handle_filter, daemon=True).start()
+
+    elif key == ord('h'):
+        threading.Thread(target=handle_help, daemon=True).start()
 
     elif key == ord('q'): 
         break
