@@ -9,7 +9,6 @@ recording = False
 filtered = False
 filter_code = None
 vid = None
-command = None
 
 web_cam = cv2.VideoCapture(0)
 fourcc = cv2.VideoWriter_fourcc(*'mp4v')
@@ -24,6 +23,8 @@ def handle_snapshot(frame):
 
 def handle_record(frame):
     try: 
+        global recording
+        global vid
         global fourcc
 
         # record video
